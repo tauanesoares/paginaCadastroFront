@@ -1,4 +1,4 @@
-import React from "react" 
+import React, {useState} from "react" 
 import styled from "styled-components"
 
 const ModeloFormulario = styled.form`
@@ -14,17 +14,33 @@ const ModeloFormulario = styled.form`
 
 
 export default function Inicio() {
+
+    const dadosInicio = {nome: "", email: "", senha: "", nascimento: ""}
+    const [dados, definirDados] = useState(dadosInicio)
+    function Mudar(evento){
+        const valor = evento.target.value 
+        const campo = evento.target.name 
+        definirDados({...dados,[campo]:valor})
+    }
     return <ModeloFormulario> 
     <input
+        value={dados.usuario}
+        onChange={Mudar}
         type="text" name="nome"
         placeholder="Nome" required/> 
     <input
+        value={dados.email}
+        onChange={Mudar}
         type="email" name="email"
         placeholder="Email@mail.com" required/>
     <input
+        value={dados.senha}
+        onChange={Mudar}
         type="password" name="senha" 
         placeholder="******" required/> 
     <input
+        value={dados.nascimento}
+        onChange={Mudar}
         type="date" name="nascimento" 
         required/>
     <input type="submit" value="Cadastrar"/> 
