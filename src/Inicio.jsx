@@ -1,5 +1,6 @@
 import React, {useState} from "react" 
 import styled from "styled-components"
+import axios from "axios"
 
 const ModeloFormulario = styled.form`
     background: white;
@@ -14,15 +15,26 @@ const ModeloFormulario = styled.form`
 
 
 export default function Inicio() {
-
+    //criação deobjetos para definir o estado inicial dos campos
     const dadosInicio = {nome: "", email: "", senha: "", nascimento: ""}
+    //criação de estado local chamado dados e uma função para atualizá-lo
     const [dados, definirDados] = useState(dadosInicio)
+    //função para atualizar o estado
     function Mudar(evento){
         const valor = evento.target.value 
         const campo = evento.target.name 
         definirDados({...dados,[campo]:valor})
     }
-    return <ModeloFormulario> 
+
+    async function Adicionar(evento){
+        evento.preventDefault()
+        await axios.post("http://localhost:4000/", dados)
+        definirDados(dadosInicio)
+    }
+
+
+
+    return <ModeloFormulario onSubmit={Adicionar}> 
     <input
         value={dados.usuario}
         onChange={Mudar}
